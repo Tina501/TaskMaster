@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>TaskMaster</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>TaskMaster</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
+<body>
+  <!-- Flash Messages -->
+  <div class="container mx-auto px-4">
+    <% flash.each do |type, message| %>
+      <div class="mb-4 p-3 bg-green-200 text-green-800 rounded">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-  </head>
+  <%= yield %> <!-- Page Content -->
 
-  <body>
-    <%= yield %>
-  </body>
+</body>
 </html>

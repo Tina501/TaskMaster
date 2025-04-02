@@ -1,0 +1,293 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+  <div class="w-64 bg-gradient-to-b from-white to-indigo-50 shadow-lg h-screen fixed left-0 top-0 border-r border-indigo-100">
+    <div class="p-6">
+      <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-8">TaskMaster</h1>
+      <nav class="space-y-2">
+        <%= link_to root_path, class: "flex items-center px-4 py-2.5 text-gray-700 hover:bg-indigo-50 rounded-lg transition duration-150 ease-in-out #{current_page?(root_path) ? 'bg-indigo-50 text-indigo-600' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Home
+        <% end %>
+        <%= link_to dashboard_path, class: "flex items-center px-4 py-2.5 text-gray-700 hover:bg-indigo-50 rounded-lg transition duration-150 ease-in-out #{current_page?(dashboard_path) ? 'bg-indigo-50 text-indigo-600' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Dashboard
+        <% end %>
+        <%= link_to tasks_path, class: "flex items-center px-4 py-2.5 text-gray-700 hover:bg-indigo-50 rounded-lg transition duration-150 ease-in-out #{current_page?(tasks_path) ? 'bg-indigo-50 text-indigo-600' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          My Tasks
+        <% end %>
+        <%= link_to new_task_path, class: "flex items-center px-4 py-2.5 text-gray-700 hover:bg-indigo-50 rounded-lg transition duration-150 ease-in-out #{current_page?(new_task_path) ? 'bg-indigo-50 text-indigo-600' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Add Task
+        <% end %>
+      </nav>
+    </div>
+  </div>
+  <div class="flex-1 ml-64">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h2 class="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 tracking-tight">Dashboard</h2>
+        <p class="text-gray-600 text-sm mt-1">You have <%= @tasks.count %> new tasks for today!</p>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <%= link_to tasks_path, class: "flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-150 ease-in-out shadow-sm mr-4" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          My Tasks
+        <% end %>
+
+        <%= link_to new_task_path, class: "flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition duration-150 ease-in-out shadow-sm" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Add Task
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Total Tasks</p>
+            <p class="text-3xl font-bold text-gray-900"><%= @total_tasks_count %></p>
+          </div>
+          <div class="p-3 bg-blue-50 rounded-full">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Completed Tasks</p>
+            <p class="text-3xl font-bold text-gray-900"><%= @completed_tasks_count %></p>
+          </div>
+          <div class="p-3 bg-green-50 rounded-full">
+            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Completion Rate</p>
+            <p class="text-3xl font-bold text-gray-900">
+              <% if @total_tasks_count && @total_tasks_count > 0 %>
+                <%= number_to_percentage((@completed_tasks_count.to_f / @total_tasks_count * 100), precision: 1) %>
+              <% else %>
+                0%
+              <% end %>
+            </p>
+          </div>
+          <div class="p-3 bg-purple-50 rounded-full">
+            <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl shadow-sm p-6 mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h2 class="text-xl text-white font-semibold">Task Completion Trends</h2>
+      </div>
+
+      <div class="h-[300px] w-full">
+        <%= line_chart [
+          {name: "Completed Tasks", data: @completed_tasks.group_by_week(:deadline).count},
+          {name: "Pending Tasks", data: @pending_tasks.group_by_week(:deadline).count}
+        ] %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-6">
+      <!-- Calendar Strip -->
+      <div class="flex space-x-8 mb-8 justify-center">
+        <% (-3..3).each do |offset| %>
+          <% date = Date.today + offset %>
+          <div class="text-center">
+            <div class="text-sm text-gray-500"><%= date.strftime("%a") %></div>
+            <div class="text-lg font-medium <%= date.today? ? 'text-blue-600' : 'text-gray-700' %>">
+              <%= date.strftime("%d") %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <h3 class="text-lg font-semibold mb-4 flex justify-between items-center">
+        Today's Tasks
+        <span class="text-sm text-gray-500">Timeline</span>
+      </h3>
+
+      <!-- Timeline -->
+      <div class="space-y-6">
+        <% (9..19).each do |hour| %>
+          <% tasks_at_hour = @tasks.select { |t| t.deadline.hour == hour } %>
+
+          <div class="flex items-start">
+            <div class="w-20 text-sm text-gray-500">
+              <%= "#{hour}:00" %> <%= hour >= 12 ? 'pm' : 'am' %>
+            </div>
+
+            <% if tasks_at_hour.any? %>
+              <% tasks_at_hour.each do |task| %>
+                <div class="flex-1 ml-4">
+                  <div class="p-3 rounded-lg <%= task.priority == 3 ? 'bg-red-50' : (task.priority == 2 ? 'bg-yellow-50' : 'bg-blue-50') %>">
+                    <div class="font-medium text-gray-800"><%= task.title %></div>
+                    <div class="text-sm text-gray-500">
+                      <%= task.deadline.strftime("%I:%M %p") %> - <%= (task.deadline + 1.hour).strftime("%I:%M %p") %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="flex-1 ml-4 border-l-2 border-gray-100 h-6"></div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for :head do %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<% end %>
+
+<%= javascript_tag do %>
+  document.addEventListener('DOMContentLoaded', function() {
+    let chart;
+    const ctx = document.getElementById('taskTrendChart').getContext('2d');
+
+    const createChart = (data) => {
+      const config = {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: 'Completed Tasks',
+              data: data.values,
+              borderColor: '#60A5FA',
+              backgroundColor: 'rgba(96, 165, 250, 0.1)',
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: '#60A5FA',
+              pointBorderColor: '#60A5FA',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              borderWidth: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#9CA3AF',
+                font: {
+                  size: 12
+                }
+              }
+            },
+            x: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#9CA3AF',
+                font: {
+                  size: 12
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(17, 24, 39, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              padding: 12,
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1
+            }
+          }
+        }
+      };
+
+      if (chart) {
+        chart.destroy();
+      }
+      chart = new Chart(ctx, config);
+    };
+
+    const fetchData = (period) => {
+      fetch(`/dashboards?period=${period}`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          createChart(data);
+
+          document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.period === period) {
+              btn.classList.add('active');
+            }
+          });
+        });
+    };
+
+    document.querySelectorAll('.period-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        fetchData(button.dataset.period);
+      });
+    });
+
+    // Initial load with monthly data
+    fetchData('monthly');
+  });
+<% end %>
+
+<style>
+  .period-btn {
+    @apply text-gray-400 hover:text-white hover:bg-gray-700;
+  }
+
+  .period-btn.active {
+    @apply text-white bg-gray-700;
+  }
+</style>

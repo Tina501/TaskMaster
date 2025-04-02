@@ -1,0 +1,9 @@
+<h1><%= @task.title %></h1>
+<p><%= @task.description %></p>
+<p><%= @task.date %></p>
+
+<%= link_to 'Edit Task', edit_task_path(@task) %> |
+<%= link_to 'Back to Dashboard', dashboard_path %>
+
+<%= link_to 'Mark as Completed', complete_task_path(@task), method: :patch, data: { confirm: 'Are you sure?' } %>
+

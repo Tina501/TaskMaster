@@ -29,6 +29,8 @@ gem "cssbundling-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
+gem 'simple_form'
+
 gem 'devise'  # For authentication
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
@@ -49,6 +51,11 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'cloudinary', '~> 2.3'
+
+gem 'faker'
+
+gem 'groupdate'
+gem "chartkick"
 
 group :development, :test do
   gem "dotenv-rails"
