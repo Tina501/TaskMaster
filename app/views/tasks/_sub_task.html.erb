@@ -1,0 +1,16 @@
+<div id="sub_task_<%= subtask.id %>" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50">
+  <%= form_with(model: subtask, url: toggle_task_sub_task_path(task, subtask), method: :patch) do |f| %>
+    <button type="submit" class="flex items-center space-x-3">
+      <div class="w-5 h-5 rounded border-2 border-indigo-500 flex items-center justify-center <%= subtask.completed ? 'bg-indigo-500' : 'bg-white' %>">
+        <% if subtask.completed %>
+          <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        <% end %>
+      </div>
+      <span class="text-sm text-gray-700 <%= subtask.completed ? 'line-through text-gray-400' : '' %>">
+        <%= subtask.title %>
+      </span>
+    </button>
+  <% end %>
+</div>

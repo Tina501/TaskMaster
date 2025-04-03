@@ -19,5 +19,15 @@
 
   <%= yield %> <!-- Page Content -->
 
+  <turbo-frame id="sub_task_details" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center" style="display: none;">
+    <div class="max-w-2xl w-full mx-auto">
+      <div class="bg-white rounded-lg shadow-xl">
+        <div class="p-6">
+          <%# Content will be loaded here %>
+        </div>
+      </div>
+    </div>
+  </turbo-frame>
+
 </body>
 </html>

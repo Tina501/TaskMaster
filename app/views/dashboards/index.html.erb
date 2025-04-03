@@ -119,17 +119,21 @@
     </div>
 
     <div class="bg-white rounded-xl shadow-sm p-6">
-      <!-- Calendar Strip -->
-      <div class="flex space-x-8 mb-8 justify-center">
-        <% (-3..3).each do |offset| %>
-          <% date = Date.today + offset %>
+      <!-- Calendar Strip - Single Date Display -->
+      <div class="flex justify-center mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 inline-block">
           <div class="text-center">
-            <div class="text-sm text-gray-500"><%= date.strftime("%a") %></div>
-            <div class="text-lg font-medium <%= date.today? ? 'text-blue-600' : 'text-gray-700' %>">
-              <%= date.strftime("%d") %>
+            <div class="text-sm font-medium text-indigo-600 mb-1">
+              <%= Date.today.strftime("%A") %>
+            </div>
+            <div class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              <%= Date.today.strftime("%d") %>
+            </div>
+            <div class="text-sm text-gray-600 mt-1">
+              <%= Date.today.strftime("%B %Y") %>
             </div>
           </div>
-        <% end %>
+        </div>
       </div>
 
       <h3 class="text-lg font-semibold mb-4 flex justify-between items-center">

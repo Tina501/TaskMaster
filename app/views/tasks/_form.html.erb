@@ -1,18 +1,70 @@
-<%= form_with model: @task, local: true, class: "space-y-4" do |form| %>
-  <div>
-    <%= form.label :title, class: "block text-gray-700 font-semibold" %>
-    <%= form.text_field :title, class: "w-full px-3 py-2 border rounded-lg" %>
+<%= form_with(model: task, class: "space-y-6 bg-white rounded-lg shadow-sm p-6") do |f| %>
+  <% if task.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-md mb-6">
+      <h2 class="text-red-800 text-sm font-medium"><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul class="mt-2 text-red-700 text-sm">
+        <% task.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <div>
+      <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :description, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <%= f.label :deadline, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_field :deadline, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <%= f.label :priority, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :priority,
+            options_for_select([['Low', 1], ['Medium', 2], ['High', 3]], task.priority),
+            {},
+            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        %>
+      </div>
+    </div>
+
+    <!-- Subtasks Section -->
+    <div class="border-t pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Subtasks</h3>
+        <button type="button" data-action="nested-form#add" class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Add Subtask
+        </button>
+      </div>
+
+      <div data-controller="nested-form" class="space-y-4">
+        <template data-nested-form-target="template">
+          <%= f.fields_for :sub_tasks, SubTask.new, child_index: 'NEW_RECORD' do |sub_task| %>
+            <%= render 'sub_task_fields', f: sub_task %>
+          <% end %>
+        </template>
+
+        <%= f.fields_for :sub_tasks do |sub_task| %>
+          <%= render 'sub_task_fields', f: sub_task %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :deadline, class: "block text-gray-700 font-semibold" %>
-    <%= form.datetime_select :deadline, class: "w-full px-3 py-2 border rounded-lg" %>
+  <div class="mt-6 flex justify-end space-x-3">
+    <%= link_to 'Cancel', tasks_path, class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50" %>
+    <%= f.submit class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700" %>
   </div>
-
-  <div>
-    <%= form.label :priority, class: "block text-gray-700 font-semibold" %>
-    <%= form.select :priority, [1, 2, 3], {}, class: "w-full px-3 py-2 border rounded-lg" %>
-  </div>
-
-  <%= form.submit "Save Task", class: "px-6 py-2 bg-blue-500 text-white rounded-lg" %>
 <% end %>

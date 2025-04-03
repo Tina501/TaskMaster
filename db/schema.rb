@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_01_103540) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_02_124246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_01_103540) do
     t.index ["user_id"], name: "index_collaborations_on_user_id"
   end
 
+  create_table "sub_tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.boolean "completed"
+    t.datetime "completed_at"
+    t.datetime "deadline"
+    t.bigint "task_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_sub_tasks_on_task_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -80,5 +92,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_01_103540) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "collaborations", "tasks"
   add_foreign_key "collaborations", "users"
+  add_foreign_key "sub_tasks", "tasks"
   add_foreign_key "tasks", "users"
 end

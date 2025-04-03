@@ -2,6 +2,11 @@ class Task < ApplicationRecord
   belongs_to :user
   has_many :collaborations, dependent: :destroy
   has_many :collaborators, through: :collaborations, source: :user
+  has_many :sub_tasks, dependent: :destroy
+
+  accepts_nested_attributes_for :sub_tasks,
+                              allow_destroy: true,
+                              reject_if: :all_blank
 
   validates :title, presence: true
   validates :description, presence: true
