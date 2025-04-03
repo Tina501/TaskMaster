@@ -3,16 +3,23 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :toggle, :complete]
 
   def index
-    @tasks = current_user.tasks
+    @tasks = current_user.tasks.includes(:sub_tasks, :collaborations, :collaborators)
 
-    case params[:filter]
-    when 'completed'
-      @tasks = @tasks.where(completed: true)
-    when 'pending'
-      @tasks = @tasks.where(completed: false)
-    end
+    @tasks = case params[:filter]
+      when 'completed'
+        @tasks.where(completed: true)
+              .reorder(priority: :desc)
+              .order(created_at: :desc)
+      when 'pending'
+        @tasks.where(completed: false)
+              .reorder(priority: :desc)
+              .order(created_at: :desc)
+      else
+        @tasks.reorder(priority: :desc)
+              .order(created_at: :desc)
+      end
 
-    @pagy, @tasks = pagy(@tasks.order(created_at: :desc))
+    @pagy, @tasks = pagy(@tasks)
   end
 
   def today
@@ -38,6 +45,7 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @task = current_user.tasks.includes(:collaborations).find(params[:id])
   end
 
   def update

@@ -7,6 +7,7 @@ class Task < ApplicationRecord
   accepts_nested_attributes_for :sub_tasks,
                               allow_destroy: true,
                               reject_if: :all_blank
+  accepts_nested_attributes_for :collaborations, allow_destroy: true
 
   validates :title, presence: true
   validates :description, presence: true
@@ -14,6 +15,8 @@ class Task < ApplicationRecord
   validates :deadline, presence: true
 
   scope :today, -> { where("DATE(deadline) = ?", Date.today) }
+  scope :completed, -> { where(completed: true) }
+  scope :pending, -> { where(completed: false) }
 
   def mark_as_completed!
     update(completed: true, completed_at: Time.current)
