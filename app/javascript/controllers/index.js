@@ -12,3 +12,6 @@ application.register("nested-form", NestedFormController)
 
 import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)
+
+import RemoveCollaboratorController from "./remove_collaborator_controller"
+application.register("remove-collaborator", RemoveCollaboratorController)
