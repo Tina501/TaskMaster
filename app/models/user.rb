@@ -5,5 +5,5 @@ class User < ApplicationRecord
 
   has_many :tasks, dependent: :destroy
   has_many :collaborations, dependent: :destroy
-  has_many :shared_tasks, through: :collaborations, source: :task
+  has_many :collaborated_tasks, through: :collaborations, source: :task
 end

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import TomSelect from "tom-select"
 
 export default class extends Controller {
-  static targets = ["input"]
+  static targets = ["input", "template", "links"]
   static values = {
     url: String,
     placeholder: String
@@ -27,7 +27,6 @@ export default class extends Controller {
       },
       placeholder: this.placeholderValue || "Search for users...",
       maxItems: null,
-      create: false,
       render: {
         option: function(item, escape) {
           return `<div class="py-2 px-3">
@@ -35,6 +34,12 @@ export default class extends Controller {
           </div>`
         }
       }
+    })
+
+    this.tomSelect.on('item_add', (value) => {
+      this.templateTarget.content.querySelector('input').value = value
+      const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())
+      this.linksTarget.insertAdjacentHTML('beforeend', content)
     })
   }
 

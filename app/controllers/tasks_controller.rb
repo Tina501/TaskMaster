@@ -3,7 +3,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :toggle, :complete]
 
   def index
-    @tasks = current_user.tasks.includes(:sub_tasks, :collaborations, :collaborators)
+    @tasks = (current_user.tasks + current_user.collaborated_tasks).uniq
+    @tasks = Task.where(id: @tasks.map(&:id)).includes(:sub_tasks, :collaborations, :collaborators)
 
     @tasks = case params[:filter]
       when 'completed'
@@ -17,23 +18,25 @@ class TasksController < ApplicationController
       else
         @tasks.reorder(priority: :desc)
               .order(created_at: :desc)
-      end
+    end
 
     @pagy, @tasks = pagy(@tasks)
   end
 
   def today
-    @tasks = current_user.tasks.where("deadline >= ? AND deadline <= ?", Time.zone.today.beginning_of_day, Time.zone.today.end_of_day)
+    @tasks = (current_user.tasks + current_user.collaborated_tasks).uniq
+    @tasks = Task.where(id: @tasks.map(&:id))
+                 .where("deadline >= ? AND deadline <= ?", Time.zone.today.beginning_of_day, Time.zone.today.end_of_day)
   end
 
   def new
     @task = current_user.tasks.build
     @task.sub_tasks.build # Build an empty subtask
+    @task.collaborations.build # Build an empty collaboration
   end
 
   def create
     @task = current_user.tasks.build(task_params)
-
     if @task.save
       redirect_to tasks_path, notice: 'Task was successfully created.'
     else
@@ -45,7 +48,7 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = current_user.tasks.includes(:collaborations).find(params[:id])
+    @task # @task is set by set_task
   end
 
   def update
@@ -87,7 +90,8 @@ class TasksController < ApplicationController
       :description,
       :deadline,
       :priority,
-      sub_tasks_attributes: [:id, :title, :description, :deadline, :_destroy],
+      :completed,
+      sub_tasks_attributes: [:id, :title, :description, :deadline, :completed, :_destroy],
       collaborations_attributes: [:id, :user_id, :_destroy]
     )
   end
